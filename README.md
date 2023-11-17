@@ -9,11 +9,11 @@
 ## 模型结构
  FLAVR模型是一个3D U-Net模型，通过拓展2D U-Net，将2D卷积替换为3D卷积而得到的。该模型能够更准确地对输入帧之间的时间动态进行建模，从而获得更好的插值质量。 
 
-![](D:\git上传前\flavr_pytorch\doc\arch_dia.png)
+![](https://developer.hpccube.com/codes/modelzoo/flavr_pytorch/-/raw/master/doc/arch_dia.png)
 
 ## 算法原理
 
-  3D U-Net结构、encoder部分采用ResNet-3D，decoder部分采用3D TransConv，以及Spatio-Temporal Feature Gating ![](D:\git上传前\flavr_pytorch\doc\原理.png)
+  3D U-Net结构、encoder部分采用ResNet-3D，decoder部分采用3D TransConv，以及Spatio-Temporal Feature Gating ![](https://developer.hpccube.com/codes/modelzoo/flavr_pytorch/-/raw/master/doc/%E5%8E%9F%E7%90%86.png)
 
 ## 环境配置
 
@@ -98,7 +98,7 @@ python main.py --batch_size 32 --test_batch_size 32 --dataset vimeo90K_septuplet
 
 测试图
 
-![](D:\git上传前\flavr_pytorch\doc\sprite.gif)
+![](https://developer.hpccube.com/codes/modelzoo/flavr_pytorch/-/raw/master/doc/sprite.gif)
 
 ### 精度
 
