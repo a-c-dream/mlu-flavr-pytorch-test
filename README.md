@@ -24,6 +24,7 @@
 ```
 docker pull image.sourcefind.cn:5000/dcu/admin/base/pytorch:1.10.0-centos7.6-dtk-22.10-py37-latest
 docker run -it --network=host --name=flavr --privileged --device=/dev/kfd --device=/dev/dri --ipc=host --shm-size=32G  --group-add video --cap-add=SYS_PTRACE --security-opt seccomp=unconfined -u root --ulimit stack=-1:-1 --ulimit memlock=-1:-1 image.sourcefind.cn:5000/dcu/admin/base/pytorch:1.10.0-centos7.6-dtk-22.10-py37-latest
+pip install -r requirements.txt
 ```
 
 ### Dockerfile（方法二）
@@ -34,7 +35,6 @@ dockerfile使用方法
 docker build --no-cache -t flavr:latest .
 docker run -dit --network=host --name=flavr --privileged --device=/dev/kfd --device=/dev/dri --ipc=host --shm-size=16G  --group-add video --cap-add=SYS_PTRACE --security-opt seccomp=unconfined -u root --ulimit stack=-1:-1 --ulimit memlock=-1:-1 flavr:latest
 docker exec -it flavr /bin/bash
-pip install -r requirements.txt
 ```
 
 ### Anaconda（方法三）
@@ -53,7 +53,8 @@ torchvision==0.10.0a0+e04d001.dtk2210
 其它非深度学习库参照requirements.txt安装：
 
 ```
-Fpip install -r requirements.txt
+pip install -r requirements.txt
+pip install tensorboard setuptools==57.5.0 six
 ```
 
 ## 数据集
@@ -122,7 +123,7 @@ python main.py --batch_size 32 --test_batch_size 32 --dataset vimeo90K_septuplet
 
 ## 源码仓库及问题反馈
 
-*   https://github.com/tarun005/FLAVR 
+*   https://developer.hpccube.com/codes/modelzoo/flavr_pytorch 
 ## 参考资料
 *  https://github.com/tarun005/FLAVR 
 
