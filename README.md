@@ -107,9 +107,9 @@ python main.py --batch_size 32 --test_batch_size 32 --dataset vimeo90K_septuplet
 
 根据测试结果情况填写表格：
 
-|  FLAVR   |   PSNR    | SSIM     |   速度   |
-| :------: | :-------: | -------- | :------: |
-| vimeo-90 | 18.511020 | 0.702564 | 3.46it/s |
+|  FLAVR   |   PSNR    | SSIM     |
+| :------: | :-------: | -------- |
+| vimeo-90 | 18.511020 | 0.702564 |
 
 ## 应用场景
 
@@ -119,7 +119,7 @@ python main.py --batch_size 32 --test_batch_size 32 --dataset vimeo90K_septuplet
 
 ### 热点应用行业
 
-`设计`
+`设计`,`制造`,`其它`
 
 ## 源码仓库及问题反馈
 
