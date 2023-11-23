@@ -103,7 +103,7 @@ python main.py --batch_size 32 --test_batch_size 32 --dataset vimeo90K_septuplet
 
 ### 精度
 
-测试数据：http://toflow.csail.mit.edu/，使用的加速卡:Z100L。
+测试数据：[vimeo-90](http://toflow.csail.mit.edu)，使用的加速卡:Z100L。
 
 根据测试结果情况填写表格：
 
