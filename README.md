@@ -19,7 +19,7 @@
 
 ### Docker（方法一）
 
-此处提供[光源](https://www.sourcefind.cn/#/service-details)拉取docker镜像
+此处提供[光源](https://sourcefind.cn/#/main-page)拉取docker镜像
 
 ```
 docker pull image.sourcefind.cn:5000/dcu/admin/base/pytorch:1.10.0-centos7.6-dtk-22.10-py37-latest
