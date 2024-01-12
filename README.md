@@ -119,7 +119,7 @@ python main.py --batch_size 32 --test_batch_size 32 --dataset vimeo90K_septuplet
 
 ### 热点应用行业
 
-`设计`,`制造`,`其它`
+`设计`,`制造`,`科研`
 
 ## 源码仓库及问题反馈
 
