@@ -1,4 +1,4 @@
 imageio==2.31.2
-numpy==1.21.4
+numpy
 Pillow==9.5.0
 tqdm==4.65.0
