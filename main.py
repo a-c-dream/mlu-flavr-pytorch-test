@@ -3,6 +3,7 @@ import sys
 import time
 
 import torch
+import torch_mlu
 import numpy as np
 from tqdm import tqdm
 from torch.utils.tensorboard import SummaryWriter
@@ -28,7 +29,8 @@ args, unparsed = config.get_args()
 cwd = os.getcwd()
 print(args)
 
-save_loc = os.path.join(args.checkpoint_dir , "saved_models_final" , args.dataset , args.exp_name)
+# save_loc = os.path.join(args.checkpoint_dir , "saved_models_final" , args.dataset , args.exp_name)
+save_loc = "/model"
 if not os.path.exists(save_loc):
     os.makedirs(save_loc)
 opts_file = os.path.join(save_loc , "opts.txt")
@@ -40,7 +42,8 @@ with open(opts_file , "w") as fh:
 writer_loc = os.path.join(args.checkpoint_dir , 'tensorboard_logs_%s_final/%s' % (args.dataset , args.exp_name))
 writer = SummaryWriter(writer_loc)
 
-device = torch.device('cuda' if args.cuda else 'cpu')
+# device = torch.device('cuda' if args.cuda else 'cpu')
+device="mlu:0"
 torch.backends.cudnn.enabled = True
 torch.backends.cudnn.benchmark = True
 
@@ -51,7 +54,7 @@ if args.cuda:
 if args.dataset == "vimeo90K_septuplet":
     from dataset.vimeo90k_septuplet import get_loader
     train_loader = get_loader('train', args.data_root, args.batch_size, shuffle=True, num_workers=args.num_workers)
-    test_loader = get_loader('test', args.data_root, args.test_batch_size, shuffle=False, num_workers=args.num_workers)   
+    test_loader = get_loader('test', args.data_root, args.test_batch_size, shuffle=False, num_workers=args.num_workers)
 elif args.dataset == "gopro":
     from dataset.GoPro import get_loader
     train_loader = get_loader(args.data_root, args.batch_size, shuffle=True, num_workers=args.num_workers, test_mode=False, interFrames=args.n_outputs, n_inputs=args.nbr_frame)
@@ -88,12 +91,12 @@ def train(args, epoch):
         # Forward
         optimizer.zero_grad()
         out = model(images)
-        
+
         out = torch.cat(out)
         gt = torch.cat(gt)
 
         loss, loss_specific = criterion(out, gt)
-        
+
         # Save loss values
         for k, v in losses.items():
             if k != 'total':
@@ -104,12 +107,12 @@ def train(args, epoch):
         optimizer.step()
 
         # Calc metrics & print logs
-        if i % args.log_iter == 0: 
+        if i % args.log_iter == 0:
             myutils.eval_metrics(out, gt, psnrs, ssims)
 
             print('Train Epoch: {} [{}/{}]\tLoss: {:.6f}\tPSNR: {:.4f}'.format(
                 epoch, i, len(train_loader), losses['total'].avg, psnrs.avg , flush=True))
-            
+
             # Log to TensorBoard
             timestep = epoch * len(train_loader) + i
             writer.add_scalar('Loss/train', loss.data.item(), timestep)
@@ -127,7 +130,7 @@ def test(args, epoch):
     losses, psnrs, ssims = myutils.init_meters(args.loss)
     model.eval()
     criterion.eval()
-        
+
     t = time.time()
     with torch.no_grad():
         for i, (images, gt_image) in enumerate(tqdm(test_loader)):
@@ -148,7 +151,7 @@ def test(args, epoch):
 
             # Evaluate metrics
             myutils.eval_metrics(out, gt, psnrs, ssims)
-                    
+
     # Print progress
     print("Loss: %f, PSNR: %f, SSIM: %f\n" %
           (losses['total'].avg, psnrs.avg, ssims.avg))
@@ -171,8 +174,12 @@ def test(args, epoch):
 
 """ Entry Point """
 def main(args):
-
-    if args.pretrained:
+    if args.resume:
+        if os.path.exists(args.resume_exp):
+            load_checkpoint(args, model, optimizer, args.resume_exp)
+        else:
+            print('No checkpoint')
+    elif args.pretrained:
         ## For low data, it is better to load from a supervised pretrained model
         loadStateDict = torch.load(args.pretrained)['state_dict']
         modelStateDict = model.state_dict()

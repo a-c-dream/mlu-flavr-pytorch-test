@@ -33,7 +33,7 @@ dockerfile使用方法
 
 ```
 docker build --no-cache -t flavr:latest .
-docker run -dit --network=host --name=flavr --privileged --device=/dev/kfd --device=/dev/dri --ipc=host --shm-size=16G  --group-add video --cap-add=SYS_PTRACE --security-opt seccomp=unconfined -u root --ulimit stack=-1:-1 --ulimit memlock=-1:-1 flavr:latest
+docker run -v /home/sunzhongyuan/DCU/flavr_pytorch:/code -dit --network=host --name=flavr --privileged --device=/dev/kfd --device=/dev/dri --ipc=host --shm-size=16G  --group-add video --cap-add=SYS_PTRACE --security-opt seccomp=unconfined -u root --ulimit stack=-1:-1 --ulimit memlock=-1:-1 flavr:latest
 docker exec -it flavr /bin/bash
 ```
 
